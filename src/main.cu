@@ -2,7 +2,7 @@
 #include <cutf/memory.hpp>
 
 namespace{
-constexpr std::size_t N = 128;
+constexpr std::size_t N = 1 << 11;
 using cuda_clock_t = unsigned long long;
 __global__ void kernel(cuda_clock_t* start_clock, cuda_clock_t* end_clock){
 	const auto tid = blockIdx.x;
@@ -23,6 +23,7 @@ int main(){
 	cutf::cuda::memory::copy(h_start_clock.get(), d_start_clock.get(), N);
 	cutf::cuda::memory::copy(h_end_clock.get(), d_end_clock.get(), N);
 
+	std::cout<<"tid,start,end"<<std::endl;
 	for(std::size_t i = 0; i < N; i++){
 		std::cout<<i<<","<<h_start_clock.get()[i]<<","<<h_end_clock.get()[i]<<std::endl;
 	}
